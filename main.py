@@ -1,7 +1,6 @@
 import os
 import tkinter as tk
 from time import sleep
-from functools import lru_cache  # Импорт декоратора для кеширования
 
 
 class KnightTour:
@@ -224,8 +223,12 @@ class KnightTour:
         self.status_label.config(text="Поиск остановлен")
 
     def is_valid_move(self, x, y):
-        """Проверка, является ли ход допустимым"""
-        return 8 > x >= 0 == self.board[x][y] and 0 <= y < 8
+        """Проверяет, что:
+        1. Координаты (x,y) находятся в пределах доски
+        2. Клетка еще не посещалась"""
+        if not (0 <= x < 8 and 0 <= y < 8):
+            return False
+        return self.board[x][y] == 0
 
     def get_board_hash(self):
         """Генерация уникального хеша текущего состояния доски для кеширования"""
